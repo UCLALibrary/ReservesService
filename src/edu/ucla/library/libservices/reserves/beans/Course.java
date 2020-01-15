@@ -22,6 +22,10 @@ public class Course
   @XmlElement( name = "quarter" )
   private String quarter;
 
+  @XmlElement( name = "url" )
+  private String url;
+
+
   public Course()
   {
     super();
@@ -85,5 +89,15 @@ public class Course
   public int getDepartmentID()
   {
     return departmentID;
+  }
+
+  public void setUrl(String url)
+  {
+    this.url = url;
+  }
+
+  public String getUrl()
+  {
+    return url;
   }
 }

@@ -11,6 +11,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
+@Api(value = "/courses")
 @Path( "/courses/" )
 public class CoursesService
 {
@@ -25,7 +30,10 @@ public class CoursesService
   @GET
   @Produces( "text/xml, application/json" )
   @Path( "/dept/{deptID}" )
-  public Response coursesByDept( @PathParam( "deptID" )
+  @ApiOperation(value = "Finds courses in a department with reserves",
+  notes = "Valid deptID values are pulled from /departments/current or /departments/during/{term} service", responseContainer = "Response",
+                response = CourseGenerator.class, httpMethod = "GET", produces = "text/xml, application/json")
+  public Response coursesByDept( @ApiParam(value = "department to be retrieved", required = true) @PathParam( "deptID" )
     int deptID )
   {
     CourseGenerator generator;
@@ -49,8 +57,11 @@ public class CoursesService
   @GET
   @Produces( "text/xml, application/json" )
   @Path( "/dept/{deptID}/term/{term}" )
-  public Response coursesByTerm( @PathParam( "deptID" )
-    int deptID, @PathParam( "term" )
+  @ApiOperation(value = "Finds courses in a department with reserves during an academic term",
+                notes = "Valid deptID values are pulled from /departments/current or /departments/during/{term} service", responseContainer = "Response",
+                response = CourseGenerator.class, httpMethod = "GET", produces = "text/xml, application/json")
+  public Response coursesByTerm( @ApiParam(value = "department to be retrieved", required = true) @PathParam( "deptID" )
+    int deptID, @ApiParam(value = "academic term for filter", required = true)  @PathParam( "term" )
     String term )
   {
     CourseGenerator generator;

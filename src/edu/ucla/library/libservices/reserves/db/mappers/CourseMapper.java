@@ -15,18 +15,19 @@ public class CourseMapper
     super();
   }
 
-  public Object mapRow( ResultSet rs, int rowNum )
+  public Object mapRow(ResultSet rs, int rowNum)
     throws SQLException
   {
     Course bean;
 
     bean = new Course();
-    bean.setCourseName( rs.getString( "course_name" ) );
-    bean.setCourseNumber( rs.getString( "course_number" ) );
-    bean.setDepartmentID( rs.getInt( "department_id" ) );
-    bean.setQuarter( rs.getString( "quarter" ) );
-    bean.setSectionID( rs.getInt( "section_id" ) );
-    bean.setSrsNumber( rs.getString( "srs_number" ) );
+    bean.setCourseName(rs.getString("course_name"));
+    bean.setCourseNumber(rs.getString("course_number"));
+    bean.setDepartmentID(rs.getInt("department_id"));
+    bean.setQuarter(rs.getString("quarter"));
+    bean.setSectionID(rs.getInt("section_id"));
+    bean.setSrsNumber(rs.getString("srs_number"));
+    bean.setUrl(rs.getString("url"));
 
     return bean;
   }
