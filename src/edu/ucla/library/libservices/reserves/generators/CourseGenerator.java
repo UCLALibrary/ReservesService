@@ -26,10 +26,10 @@ public class CourseGenerator
   private String dbName;
 
   private static final String DEPT_QUERY =
-    "SELECT * FROM vger_support.reserve_courses WHERE department_id = ? AND " 
+    "SELECT * FROM vger_support.reserve_courses WHERE department_id = ? AND "
     + "quarter = vger_support.get_current_quarter() ORDER BY course_name";
   private static final String QUARTER_QUERY =
-    "SELECT * FROM vger_support.reserve_courses WHERE department_id = ? AND " 
+    "SELECT * FROM vger_support.reserve_courses WHERE department_id = ? AND "
     + "quarter = ? ORDER BY course_name";
 
   public CourseGenerator()
@@ -57,6 +57,31 @@ public class CourseGenerator
     return quarter;
   }
 
+  public void setDs( DataSource ds )
+  {
+    this.ds = ds;
+  }
+
+  private DataSource getDs()
+  {
+    return ds;
+  }
+
+  public void setDbName( String dbName )
+  {
+    this.dbName = dbName;
+  }
+
+  private String getDbName()
+  {
+    return dbName;
+  }
+
+  public List<Course> getCourses()
+  {
+    return courses;
+  }
+
   private void makeConnection()
   {
     ds = DataSourceFactory.createDataSource( getDbName() );
@@ -71,6 +96,12 @@ public class CourseGenerator
           { getDepartmentID() }, new CourseMapper() );
   }
 
+  public void testPrepCoursesByDept()
+  {
+    courses = new JdbcTemplate( getDs() ).query( DEPT_QUERY, new Object[]
+          { getDepartmentID() }, new CourseMapper() );
+  }
+
   public void prepCoursesByQuarter()
   {
     makeConnection();
@@ -79,18 +110,9 @@ public class CourseGenerator
           { getDepartmentID(), getQuarter() }, new CourseMapper() );
   }
 
-  public List<Course> getCourses()
+  public void testPrepCoursesByQuarter()
   {
-    return courses;
-  }
-
-  public void setDbName( String dbName )
-  {
-    this.dbName = dbName;
-  }
-
-  private String getDbName()
-  {
-    return dbName;
+    courses = new JdbcTemplate( getDs() ).query( QUARTER_QUERY, new Object[]
+          { getDepartmentID(), getQuarter() }, new CourseMapper() );
   }
 }

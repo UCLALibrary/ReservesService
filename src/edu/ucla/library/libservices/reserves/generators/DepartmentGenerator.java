@@ -26,12 +26,12 @@ public class DepartmentGenerator
   private String dbName;
 
   private static final String DEPT_QUERY =
-    "SELECT DISTINCT department_id,department_code,department_name " 
-    + "FROM vger_support.reserve_departments WHERE quarter = " 
+    "SELECT DISTINCT department_id,department_code,department_name "
+    + "FROM vger_support.reserve_departments WHERE quarter = "
     + "vger_support.get_current_quarter() ORDER BY department_name";
   private static final String QUARTER_QUERY =
-    "SELECT DISTINCT department_id,department_code,department_name, quarter" 
-    + " FROM vger_support.reserve_departments WHERE quarter = ? " 
+    "SELECT DISTINCT department_id,department_code,department_name, quarter"
+    + " FROM vger_support.reserve_departments WHERE quarter = ? "
     + "ORDER BY department_name";
 
   public DepartmentGenerator()
@@ -54,6 +54,26 @@ public class DepartmentGenerator
     return quarter;
   }
 
+  public void setDs( DataSource ds )
+  {
+    this.ds = ds;
+  }
+
+  private DataSource getDs()
+  {
+    return ds;
+  }
+
+  public void setDbName( String dbName )
+  {
+    this.dbName = dbName;
+  }
+
+  private String getDbName()
+  {
+    return dbName;
+  }
+
   private void makeConnection()
   {
     ds = DataSourceFactory.createDataSource( getDbName() );
@@ -68,6 +88,12 @@ public class DepartmentGenerator
         new JdbcTemplate( ds ).query( DEPT_QUERY, new DistinctDepartmentMapper() );
   }
 
+  public void testPrepCurrentDepts()
+  {
+    departments =
+        new JdbcTemplate( getDs() ).query( DEPT_QUERY, new DistinctDepartmentMapper() );
+  }
+
   public void prepDeptsByQuarter()
   {
     makeConnection();
@@ -76,13 +102,9 @@ public class DepartmentGenerator
           { getQuarter() }, new DepartmentMapper() );
   }
 
-  public void setDbName( String dbName )
+  public void testPrepDeptsByQuarter()
   {
-    this.dbName = dbName;
-  }
-
-  private String getDbName()
-  {
-    return dbName;
+    departments = new JdbcTemplate( getDs() ).query( QUARTER_QUERY, new Object[]
+          { getQuarter() }, new DepartmentMapper() );
   }
 }

@@ -52,6 +52,16 @@ public class ItemGenerator
     return quarter;
   }
 
+  public void setDs( DataSource ds )
+  {
+    this.ds = ds;
+  }
+
+  private DataSource getDs()
+  {
+    return ds;
+  }
+
   public void setSrsNumber( String srsNumber )
   {
     this.srsNumber = srsNumber;
@@ -60,6 +70,16 @@ public class ItemGenerator
   private String getSrsNumber()
   {
     return srsNumber;
+  }
+
+  public void setDbName( String dbName )
+  {
+    this.dbName = dbName;
+  }
+
+  private String getDbName()
+  {
+    return dbName;
   }
 
   private void makeConnection()
@@ -76,6 +96,12 @@ public class ItemGenerator
           { getSrsNumber() }, new ItemMapper() );
   }
 
+  public void testPrepItems()
+  {
+    items = new JdbcTemplate( getDs() ).query( ITEMS_QUERY, new Object[]
+          { getSrsNumber() }, new ItemMapper() );
+  }
+
   public void prepItemsByQuarter()
   {
     makeConnection();
@@ -84,13 +110,9 @@ public class ItemGenerator
           { getSrsNumber(), getQuarter() }, new ItemMapper() );
   }
 
-  public void setDbName( String dbName )
+  public void testPrepItemsByQuarter()
   {
-    this.dbName = dbName;
-  }
-
-  private String getDbName()
-  {
-    return dbName;
+    items = new JdbcTemplate( getDs() ).query( QUARTER_QUERY, new Object[]
+          { getSrsNumber(), getQuarter() }, new ItemMapper() );
   }
 }
