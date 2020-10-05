@@ -1,7 +1,9 @@
 package edu.ucla.library.libservices.reserves.generators;
 
 import edu.ucla.library.libservices.reserves.beans.Department;
+import edu.ucla.library.libservices.reserves.beans.DepartmentV2;
 import edu.ucla.library.libservices.reserves.db.mappers.DepartmentMapper;
+import edu.ucla.library.libservices.reserves.db.mappers.DepartmentMapperV2;
 import edu.ucla.library.libservices.reserves.db.mappers.DistinctDepartmentMapper;
 import edu.ucla.library.libservices.reserves.db.utiltiy.DataSourceFactory;
 

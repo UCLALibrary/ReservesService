@@ -1,7 +1,11 @@
 package edu.ucla.library.libservices.reserves.generators;
 
 import edu.ucla.library.libservices.reserves.beans.Course;
+import edu.ucla.library.libservices.reserves.beans.CourseV2;
+import edu.ucla.library.libservices.reserves.beans.CourseV3;
 import edu.ucla.library.libservices.reserves.db.mappers.CourseMapper;
+import edu.ucla.library.libservices.reserves.db.mappers.CourseMapperV2;
+import edu.ucla.library.libservices.reserves.db.mappers.CourseMapperV3;
 import edu.ucla.library.libservices.reserves.db.utiltiy.DataSourceFactory;
 
 import java.util.List;
