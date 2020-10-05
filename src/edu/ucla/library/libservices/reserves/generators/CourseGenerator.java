@@ -82,6 +82,11 @@ public class CourseGenerator
     return courses;
   }
 
+  public List<CourseV3> getV3Courses()
+  {
+    return v3Courses;
+  }
+
   private void makeConnection()
   {
     ds = DataSourceFactory.createDataSource( getDbName() );
@@ -115,4 +120,34 @@ public class CourseGenerator
     courses = new JdbcTemplate( getDs() ).query( QUARTER_QUERY, new Object[]
           { getDepartmentID(), getQuarter() }, new CourseMapper() );
   }
+
+  public void prepV3CoursesByQuarter()
+  {
+    makeConnection();
+
+    v3Courses = new JdbcTemplate(ds).query(V3_QUARTER_QUERY, new Object[] { getQuarter() }, new CourseMapperV3());
+  }
+
+  public List<CourseV2> getV2Courses()
+  {
+    makeConnection();
+
+    v2Courses =
+      new JdbcTemplate(ds).query(QUARTER_QUERY, new Object[] { getDepartmentID(), getQuarter() }, new CourseMapperV2());
+
+    for (CourseV2 theCourse: v2Courses)
+    {
+      ItemGenerator generator;
+
+      generator = new ItemGenerator();
+      generator.setSrsNumber(theCourse.getSrsNumber());
+      generator.setDbName(getDbName());
+      generator.setQuarter(getQuarter());
+
+      theCourse.setItems(generator.getItems());
+    }
+
+    return v2Courses;
+  }
+
 }

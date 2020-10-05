@@ -107,4 +107,21 @@ public class DepartmentGenerator
     departments = new JdbcTemplate( getDs() ).query( QUARTER_QUERY, new Object[]
           { getQuarter() }, new DepartmentMapper() );
   }
+
+  public void prepV2DeptsByQuarter()
+  {
+    makeConnection();
+
+    v2Departments = new JdbcTemplate( ds ).query( QUARTER_QUERY, new Object[]
+          { getQuarter() }, new DepartmentMapperV2() );
+    for ( DepartmentV2 theDepartment : v2Departments )
+    {
+      CourseGenerator generator;
+      generator = new CourseGenerator();
+      generator.setDepartmentID( theDepartment.getDepartmentID() );
+      generator.setDbName( getDbName() );
+      generator.setQuarter(getQuarter());
+      theDepartment.setCourses(generator.getV2Courses());
+    }
+  }
 }

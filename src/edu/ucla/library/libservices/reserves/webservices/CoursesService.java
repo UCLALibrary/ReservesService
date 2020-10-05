@@ -82,4 +82,31 @@ public class CoursesService
                                             e.getMessage() ).build();
     }
   }
+
+  @GET
+  @Produces( "text/xml, application/json" )
+  @Path( "/all/term/{term}" )
+  @ApiOperation(value = "Finds all courses with reserves during an academic term",
+                responseContainer = "Response",
+                response = CourseGenerator.class, httpMethod = "GET", produces = "text/xml, application/json")
+  public Response allCoursesByTerm( @ApiParam(value = "academic term for filter", required = true)  @PathParam( "term" )
+    String term )
+  {
+    CourseGenerator generator;
+
+    generator = new CourseGenerator();
+    generator.setDbName( config.getServletContext().getInitParameter( "datasource.oracle" ) );
+    generator.setQuarter( term );
+
+    try
+    {
+      generator.prepV3CoursesByQuarter();
+      return Response.ok().entity( generator ).build();
+    }
+    catch ( Exception e )
+    {
+      return Response.serverError().entity( "search failed: " +
+                                            e.getMessage() ).build();
+    }
+  }
 }
