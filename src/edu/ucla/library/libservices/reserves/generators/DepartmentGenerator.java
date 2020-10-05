@@ -24,6 +24,8 @@ public class DepartmentGenerator
   private DataSource ds;
   @XmlElement( name = "department" )
   private List<Department> departments;
+  @XmlElement( name = "department" )
+  private List<DepartmentV2> v2Departments;
   private String quarter;
   private String dbName;
 

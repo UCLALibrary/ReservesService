@@ -25,6 +25,10 @@ public class CourseGenerator
   private DataSource ds;
   @XmlElement( name = "course" )
   private List<Course> courses;
+  @XmlElement(name = "course")
+  private List<CourseV2> v2Courses;
+  @XmlElement(name = "course")
+  private List<CourseV3> v3Courses;
   private int departmentID;
   private String quarter;
   private String dbName;
@@ -35,6 +39,10 @@ public class CourseGenerator
   private static final String QUARTER_QUERY =
     "SELECT * FROM vger_support.reserve_courses WHERE department_id = ? AND "
     + "quarter = ? ORDER BY course_name";
+  private static final String V3_QUARTER_QUERY =
+    "SELECT DISTINCT course_number,course_name,section_id,c.department_id,department_name,srs_number,c.quarter,url"
+    + " FROM vger_support.reserve_courses c inner join vger_support.reserve_departments d on c.department_id ="
+    + " d.department_id WHERE c.quarter = ? AND d.quarter = c.quarter ORDER BY department_name, course_name";
 
   public CourseGenerator()
   {
