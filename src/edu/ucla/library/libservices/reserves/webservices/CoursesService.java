@@ -83,7 +83,7 @@ public class CoursesService
     }
   }
 
-  @GET
+  /*@GET
   @Produces( "text/xml, application/json" )
   @Path( "/all/term/{term}" )
   @ApiOperation(value = "Finds all courses with reserves during an academic term",
@@ -109,5 +109,5 @@ public class CoursesService
       return Response.serverError().entity( "search failed: " +
                                             e.getMessage() ).build();
     }
-  }
+  }*/
 }
