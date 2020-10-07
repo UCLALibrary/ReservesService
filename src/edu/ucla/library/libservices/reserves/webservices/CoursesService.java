@@ -105,6 +105,7 @@ public class CoursesService
     }
     catch ( Exception e )
     {
+      e.printStackTrace();
       return Response.serverError().entity( "search failed: " +
                                             e.getMessage() ).build();
     }
